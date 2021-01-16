@@ -1,3 +1,4 @@
+const { assert } = require('chai');
 const { app } = require('./setup');
 
 describe('User authentication', () => {
@@ -14,9 +15,23 @@ describe('User authentication', () => {
           return done(err);
         }
         const cookie = res.get('set-cookie');
-        app.get('/api/users')
-          .set('Cookie', cookie)
-          .expect(200, done);
+        app.get('/api/users').set('Cookie', cookie).expect(200, done);
       });
+  });
+
+  it('should not allow access to protected endpoint after logout', async () => {
+    let res = await app
+      .post('/api/login')
+      .send('username=test&password=test')
+      .expect(200);
+
+    const cookie = res.get('set-cookie');
+    assert(!!cookie, 'Cookie not returned from login endpoint');
+
+    await app.get('/api/users').set('Cookie', cookie).expect(200);
+
+    await app.post('/api/logout').set('Cookie', cookie).expect(200);
+
+    await app.get('/api/users').set('Cookie', cookie).expect(401);
   });
 });

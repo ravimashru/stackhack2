@@ -20,6 +20,9 @@ authRouter.post('/api/login', (req, res, next) => {
   })(req, res, next);
 });
 
-authRouter.post('/api/logout', (req, res) => {});
+authRouter.post('/api/logout', (req, res) => {
+  req.logout();
+  res.status(200).end();
+});
 
 module.exports = authRouter;
