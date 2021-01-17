@@ -1,7 +1,7 @@
 const { assert } = require('chai');
 const { app } = require('./setup');
 
-describe('User controller', () => {
+describe('User', () => {
   let cookie;
   before((done) => {
     app
