@@ -6,8 +6,8 @@ const passport = require('passport');
 
 const { localStrategy, isAuthenticated } = require('./authentication');
 
-const userRouter = require('./controllers/user');
-const authRouter = require('./controllers/auth');
+const userRouter = require('./routers/user');
+const authRouter = require('./routers/auth');
 
 const app = express();
 
