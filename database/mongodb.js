@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+
+// See: https://mongoosejs.com/docs/deprecations.html#findandmodify
+mongoose.set('useFindAndModify', false);
+
 let connection;
 
 const connect = async (dbUrl) => {

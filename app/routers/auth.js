@@ -9,7 +9,7 @@ authRouter.post('/api/login', (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      return res.json(info).status(401).end();
+      return res.status(401).json(info);
     }
     req.logIn(user, (err) => {
       if (err) {

@@ -10,9 +10,17 @@ userRouter.get('/api/users', async (req, res) => {
   return res.json({ users }).status(200);
 });
 
+userRouter.get('/api/users/:userId', async (req, res) => {
+  const User = getUserModel();
+  const user = await User.findById(req.params.userId);
+  return res.json(user).status(200);
+});
+
 userRouter.post('/api/users', async (req, res) => {
   const User = getUserModel();
-  const user = await User.create(req.body);
+  const userDetails = req.body;
+  userDetails.userActivated = false;
+  const user = await User.create(userDetails);
   res.json(user);
 });
 

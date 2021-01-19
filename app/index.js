@@ -9,6 +9,8 @@ const { localStrategy, isAuthenticated } = require('./authentication');
 const userRouter = require('./routers/user');
 const authRouter = require('./routers/auth');
 
+const userVerifyController = require('./routers/user-verify');
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,6 +30,10 @@ app.use(passport.session());
 passport.use(localStrategy);
 
 app.use(authRouter);
+
+// The verification endpoint is not included in the userRouter
+// because the endpoint should be accessible to unauthenticated users
+app.post('/api/users/:userId/verify', userVerifyController.verifyUser);
 app.use(isAuthenticated, userRouter);
 
 module.exports = app;
