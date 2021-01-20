@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 
 let app = require('express')();
 app.use(bodyParser.json());
-const userRouter = require('../app/routers/user');
+const userRouter = require('../../app/routers/user');
 app.use(userRouter);
 
 app = supertest(app);
