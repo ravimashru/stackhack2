@@ -9,10 +9,12 @@ const disconnect = async () => {
   await mongodb.disconnect();
 };
 
+const getEmployeeModel = () => mongodb.getEmployeeModel();
 const getUserModel = () => mongodb.getUserModel();
 
 module.exports = {
   connect,
   disconnect,
+  getEmployeeModel,
   getUserModel,
 };

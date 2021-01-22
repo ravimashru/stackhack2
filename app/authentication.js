@@ -21,10 +21,14 @@ passport.serializeUser((user, done) => {
   done(null, user.username);
 });
 
-passport.deserializeUser((username, done) => {
+passport.deserializeUser(async (username, done) => {
   let user;
   if (process.env.NODE_ENV === 'test' && username === 'test') {
     user = { username };
+  } else {
+    const User = getUserModel();
+    // TODO: check for hashed password
+    user = await User.findOne({ username }).exec();
   }
   if (!user) {
     done(null, false);

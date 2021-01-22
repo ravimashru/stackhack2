@@ -1,9 +1,9 @@
 const { assert } = require('chai');
-const { app } = require('./setup');
+const { app } = require('../setup');
 
 describe('User authentication', () => {
   it('should not allow access to protected endpoints without login', (done) => {
-    app.get('/api/users').expect(401, done);
+    app.get('/api/me').expect(401, done);
   });
 
   it('should allow access to protected endpoints after login', (done) => {
@@ -15,7 +15,7 @@ describe('User authentication', () => {
           return done(err);
         }
         const cookie = res.get('set-cookie');
-        app.get('/api/users').set('Cookie', cookie).expect(200, done);
+        app.get('/api/me').set('Cookie', cookie).expect(200, done);
       });
   });
 
@@ -28,10 +28,10 @@ describe('User authentication', () => {
     const cookie = res.get('set-cookie');
     assert(!!cookie, 'Cookie not returned from login endpoint');
 
-    await app.get('/api/users').set('Cookie', cookie).expect(200);
+    await app.get('/api/me').set('Cookie', cookie).expect(200);
 
     await app.post('/api/logout').set('Cookie', cookie).expect(200);
 
-    await app.get('/api/users').set('Cookie', cookie).expect(401);
+    await app.get('/api/me').set('Cookie', cookie).expect(401);
   });
 });

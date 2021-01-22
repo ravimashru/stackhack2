@@ -12,11 +12,16 @@ const connect = async (dbUrl) => {
   });
 
   // Create models
+  connection.model('Employee', require('./schemas/employee'));
   connection.model('User', require('./schemas/user'));
 };
 
 const disconnect = async () => {
   connection.close();
+};
+
+const getEmployeeModel = () => {
+  return connection.model('Employee');
 };
 
 const getUserModel = () => {
@@ -26,5 +31,6 @@ const getUserModel = () => {
 module.exports = {
   connect,
   disconnect,
+  getEmployeeModel,
   getUserModel,
 };
