@@ -6,8 +6,7 @@ const { connect, getUserModel } = require('../../database');
 describe('Employee verification', () => {
   let cookie;
   let User;
-  before(async function () {
-    this.timeout(50000);
+  before(async () => {
     const res = await app
       .post('/api/login')
       .send('username=test&password=test')
@@ -152,8 +151,7 @@ describe('Employee verification', () => {
     );
   });
 
-  it('should allow login for activated user with correct password', async function() {
-    this.timeout(50000);
+  it('should allow login for activated user with correct password', async () => {
     // Create employee record
     let res = await app
       .post('/api/employees')
