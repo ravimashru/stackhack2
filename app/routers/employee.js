@@ -10,9 +10,9 @@ employeeRouter.get('/', async (req, res) => {
   return res.json({ employees }).status(200);
 });
 
-employeeRouter.get('/:userId', async (req, res) => {
+employeeRouter.get('/:id', async (req, res) => {
   const Employee = getEmployeeModel();
-  const employee = await Employee.findById(req.params.userId);
+  const employee = await Employee.findById(req.params.id);
   return res.json(employee).status(200);
 });
 
@@ -36,6 +36,38 @@ employeeRouter.post('/', async (req, res) => {
   } catch (e) {
     res.status(400).json(e);
   }
+});
+
+employeeRouter.put('/:id', async (req, res) => {
+  const updatedDetails = req.body;
+
+  // Employee ID cannot be changed
+  if (Object.keys(updatedDetails).includes('employeeId')) {
+    res.status(400).end();
+  }
+
+  const Employee = getEmployeeModel();
+  const employee = await Employee.findById(req.params.id).exec();
+  if (!employee) {
+    return res.status(404).end();
+  }
+
+  Object.assign(employee, updatedDetails);
+  await employee.save();
+
+  res.status(200).end();
+});
+
+employeeRouter.delete('/:id', async (req, res) => {
+  const Employee = getEmployeeModel();
+  const employee = await Employee.findById(req.params.id).exec();
+  if (!employee) {
+    return res.status(404).end();
+  }
+
+  employee.deleted = true;
+  await employee.save();
+  res.status(204).end();
 });
 
 module.exports = employeeRouter;

@@ -31,6 +31,7 @@ const employeeSchema = new mongoose.Schema({
       message: 'Salary has to be greater than zero',
     },
   },
+  deleted: Boolean,
 });
 
 module.exports = employeeSchema;
